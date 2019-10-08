@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    font-weight: 100;
+}
+
+.listItem {
+    display: flex;
+    width: 70%;
+    font-size: 1.4em;
+    margin: 14px 0 14px 4px;
+    cursor: pointer;
+}
+
+.listItem i {
+    margin-right: 15px;
+}
+
+.header {
+    background-color: #11122b;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 28px 100px;
+}
+
+.side-bar {
+    width: 28%;
+    height: 700px;
+    background-color: #dadfea;
+    position: relative;
+    padding-top: 20px;
+}
+
+.page-container {
+    display: flex;
+
+}
+.input {
+    position: absolute;
+    bottom: 0;
+}
+.task-container {
+    width: 100%;
+}
+.heading {
+    height: 100px;
+    background-color: #cbcbcb;
+    width: 100%;
+}
