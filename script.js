@@ -7,6 +7,7 @@ document.getElementById("input").addEventListener("keyup", function(event){
         itemReady();
     }
 })
+
 document.getElementById("input-btn").addEventListener("click", function() {
     itemReady();
 })
@@ -24,25 +25,38 @@ function itemReady(){
     }
     id++;
 
-    for(let i = 0; i < document.getElementsByClassName("listItem").length; i++) {
-        document.getElementsByClassName("listItem")[i].addEventListener("click", function(){
+    for(let i = 0; i < document.getElementsByClassName("item").length; i++) {
+        document.getElementsByClassName("item")[i].addEventListener("click", function(){
             selectedList.id = i;
+            selectedList.tasks = lists[i].tasks;
+            console.log(selectedList);
+            renderTasks();
         })
     }
 }
 
-function renderLists(id) {
+function renderLists(id){
     let html = "<div>";
     for(list in lists) {
         html += `<div class="listItem">
                     <i class="fas fa-trash-alt" onclick="deleteList(${lists[list].iD})"></i>
-                    <div>${lists[list].name}</div>
+                    <div class="item">${lists[list].name}</div>
                 </div>`;
     }
-    html += "<div>";
+    html += "</div>";
     document.getElementById("lists").innerHTML = html;
-    let newTask = document.getElementById("tasks");
-    newTask.insertAdjacentHTML("beforeend", `<div id="list${id}"></div>`)
+}
+
+function renderTasks() {
+    let tasksList = selectedList.tasks;
+    let html = "<div>";
+    for(tasks in tasksList) {
+        html += `<div class="text">
+                    <div>${tasksList[tasks]}</div>
+                </div>`;
+    }
+    html += "</div>";
+    document.getElementById("tasks").innerHTML = html;
 }
 
 function deleteList(id){
@@ -58,6 +72,8 @@ document.getElementById("task-input").addEventListener("keyup", function(event) 
 })
 
 function addTask() {
-    let taskInput = document.getElementById("task-input");
-    lists[selectedList.id].tasks.push(taskInput.value);
+    let taskInput = document.getElementById("task-input").value;
+    lists[selectedList.id].tasks.push(taskInput);
+    console.log(lists);
+    renderTasks();
 }
