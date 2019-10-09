@@ -1,4 +1,4 @@
-var lists = {};
+var lists = [];
 var selectedList = {};
 var id = 0;
 
@@ -17,10 +17,11 @@ function itemReady(){
     if(!input.value) {
         alert("Must Enter Something");
     } else {
-        lists[id] = {};
-        lists[id].name = input.value;
-        lists[id].iD = id;
-        lists[id].tasks = [];
+        lists.push({
+            name: input.value,
+            iD: id,
+            tasks: []
+        });
         renderLists(id);
     }
     id++;
@@ -28,8 +29,6 @@ function itemReady(){
     for(let i = 0; i < document.getElementsByClassName("item").length; i++) {
         document.getElementsByClassName("item")[i].addEventListener("click", function(){
             selectedList.id = i;
-            selectedList.tasks = lists[i].tasks;
-            console.log(selectedList);
             renderTasks();
         })
     }
@@ -48,7 +47,7 @@ function renderLists(id){
 }
 
 function renderTasks() {
-    let tasksList = selectedList.tasks;
+    let tasksList = lists[selectedList.id].tasks;
     let html = "<div>";
     for(tasks in tasksList) {
         html += `<div class="text">
@@ -60,8 +59,12 @@ function renderTasks() {
 }
 
 function deleteList(id){
-    delete lists[id];
-    console.log(id);
+    for(i = 0; i < lists.length; i++) {
+        if(id === lists[i].iD) {
+            lists.splice(i, 1);
+            selectedList.id = 0;
+        }
+    }
     renderLists();
 }
 
@@ -74,6 +77,5 @@ document.getElementById("task-input").addEventListener("keyup", function(event) 
 function addTask() {
     let taskInput = document.getElementById("task-input").value;
     lists[selectedList.id].tasks.push(taskInput);
-    console.log(lists);
     renderTasks();
 }
