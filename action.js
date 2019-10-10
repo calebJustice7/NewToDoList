@@ -119,14 +119,16 @@ function renderTasks() {
     var unchecked = "far fa-circle";
     var checked = "far fa-check-circle";
     let html = "<div>";
-    for(tasks in lists[selectedList.id].tasks) {
-        html += `<div class="text">
-                    <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
-                    <i class="${lists[selectedList.id].completed[tasks]}" onclick="check(event)"></i>
-                    <div>${lists[selectedList.id].tasks[tasks]}</div>
-                </div>`;
+    if(lists.length > 0) {
+        for(tasks in lists[selectedList.id].tasks) {
+            html += `<div class="text">
+                        <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
+                        <i class="${lists[selectedList.id].completed[tasks]}" onclick="check(event)"></i>
+                        <div>${lists[selectedList.id].tasks[tasks]}</div>
+                    </div>`;
+        }
+        html += `</div><button class="clearCompleted" onclick="clearCompleted(event)">Clear Completed Tasks</button>`;
     }
-    html += `</div><button class="clearCompleted" onclick="clearCompleted(event)">Clear Completed Tasks</button>`;
     document.getElementById("tasks").innerHTML = html;
 }
 
@@ -176,9 +178,7 @@ function deleteList(id, event){
                 selectedList.id = 0;
             }
         }
-        if(lists.length > 1) {
-            renderTasks();
-        }
+        renderTasks();
         renderLists();
         itemReady();
     }, 300)
@@ -195,9 +195,11 @@ var completedClicks = 0;
 function addTask() {
     let taskInput = document.getElementById("task-input");
     if(selectedList.id >= 0) {
-        lists[selectedList.id].tasks.push(taskInput.value);
-        lists[selectedList.id].completed.push("far fa-circle");
-        renderTasks();
+        if(taskInput.value.length > 0) {
+            lists[selectedList.id].tasks.push(taskInput.value);
+            lists[selectedList.id].completed.push("far fa-circle");
+            renderTasks();
+        }
     }
     taskInput.value = "";
 }
