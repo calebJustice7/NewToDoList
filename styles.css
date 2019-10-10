@@ -188,6 +188,9 @@ body {
     margin: 0 auto;
     margin-top: 25px;
 }
+#create-account-modal .modal-content{
+    height: 400px;
+}
 #create-account-modal .modal-input-wrapper {
     width: 75%;
     font-size: 0.9em;
@@ -214,4 +217,20 @@ body {
     padding: 5px 20px;
     border-radius: 10px;
     cursor: pointer;
+    background-color: #31D158;
+    border: none;
+    color: white;
+}
+.flexbtn {
+    display: flex;
+    flex-direction: column;
+}
+.flexbtn button {
+    width: 50%;
+    margin: 10px auto;
+    height: 35px;
+}
+.left-side {
+    display: flex;
+    align-items: center;
 }

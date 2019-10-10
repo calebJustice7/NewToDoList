@@ -6,7 +6,11 @@ $("#new-account").click(function(){
         let newColor = $("#newColor").val();
         users.name = newUsername;
         users.pass = newPassword;
-        users.olor = newColor;
+        users.color = newColor;
+        $("#newUsername").css("border-color", "#31D158");
+        $("#newPassword").css("border-color", "#31D158");
+        $("#newColor").css("border-color", "#31D158");
+        $("#success").html("Account Created!");
 });
 
 $("#return-sign-in").click(function(){
@@ -33,13 +37,11 @@ $("#show-sidebar").click(function(){
 
 function modal() {
     $("#modal-container").show();
-    $("#close").click(function(){
-        $("#modal-container").hide()
-    })
 
     $("#sign-in").click(function(){
             if($("#username").val() == users.name && $("#password").val() == users.pass) {
                 $("#modal-container").hide();
+                $("#user").html("Welcome Back " + users.name + "!");
             } else {
                 $("#username").css("border-color", "rgb(255, 69, 58");
                 $("#password").css("border-color", "rgb(255, 69, 58");
