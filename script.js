@@ -68,7 +68,7 @@ function renderTasks() {
     let html = "<div>";
     for(tasks in lists[selectedList.id].tasks) {
         html += `<div class="text">
-                    <i onclick="deleteTask()" class="fas fa-trash-alt"></i>
+                    <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
                     <i class="far fa-circle"></i>
                     <div>${lists[selectedList.id].tasks[tasks]}</div>
                 </div>`;
@@ -77,8 +77,11 @@ function renderTasks() {
     document.getElementById("tasks").innerHTML = html;
 }
 
-function deleteTask(){
-    console.log(selectedList.tasks);
+function deleteTask(event){
+    var thisHtml = event.target.parentNode.lastChild.previousSibling.innerHTML;
+    var thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
+    lists[selectedList.id].tasks.splice(thisIndex, 1);
+    renderTasks();
 }
 
 function deleteList(id){
