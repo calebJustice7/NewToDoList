@@ -2,6 +2,7 @@ body {
     margin: 0;
     font-family: sans-serif;
     font-weight: 100;
+    position: relative;
 }
 
 .listItem {
@@ -10,10 +11,26 @@ body {
     font-size: 1.4em;
     margin: 14px 0 14px 4px;
     cursor: pointer;
+    align-items: center;
+    border-bottom: 2px solid #9e9e9e;
+    padding-bottom: 5px;
+    border-radius: 2px;
+    color: #9e9e9e;
+    transition: all 0.1s;
+    margin-bottom: 25px;
+}
+
+.listItemActive {
+    border-color: black;
+    color: black;
 }
 
 .listItem i {
     margin-right: 15px;
+    transition: 0.2s;
+}
+.listItem i:hover {
+    color: rgba(255, 59, 48, 0.94);
 }
 
 .header {
@@ -25,11 +42,12 @@ body {
 }
 
 .side-bar {
-    width: 28%;
-    height: 700px;
+    width: 400px;
+    height: 720px;
     background-color: #dadfea;
     position: relative;
     padding-top: 20px;
+    font-family: "Nunito", sans-serif;
 }
 
 .page-container {
@@ -38,13 +56,135 @@ body {
 }
 .input {
     position: absolute;
-    bottom: 0;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    height: 40px;
+}
+.input input {
+    width: 50%;
+    padding: 0;
+    padding-left: 15px;
+    margin: 0;
+    border: none;
+}
+.input button {
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(17, 18, 43, 0.4);
+    border: none;
+    color: white;
 }
 .task-container {
     width: 100%;
+    position: relative;
 }
 .heading {
     height: 100px;
     background-color: #cbcbcb;
     width: 100%;
+}
+.list-container {
+    padding-left: 35px;
+    padding-top: 30px;
+}
+.footer {
+    position: absolute;
+    top: 100px;
+    height: 40px;
+    width: 500px;
+    margin: 0;
+    display: flex;
+}
+.footer input {
+    border: none;
+    padding: 0;
+    padding-left: 15px;
+    background-color: #dadfea;
+    height: 40px;
+    margin: 0;
+    width: 50%;
+}
+.footer button {
+    height: 50px;
+    margin: 0;
+    background-color: rgba(17, 18, 43, 0.4);
+    padding: 0;
+    height: 40px;
+    width: 50%
+}
+.text {
+    margin: 15px 0;
+    padding-left: 27px;
+    font-size: 1.39em;
+    display: flex;
+    align-items:center;
+}
+.text i {
+    font-size: 0.95em;
+    margin-right: 14px;
+    cursor: pointer;
+}
+.text:first-child {
+    margin-top: 53px;
+}
+.item {
+    width: 100%;
+}
+.fa-circle {
+    transition: 0.19s;
+}
+.fa-circle:hover {
+    background-color: rgba(48, 208, 88, 0.4);
+    border-radius: 100%;
+}
+.fa-check-circle {
+    color: rgba(48, 209, 88);
+}
+#modal-container {
+    display: none;
+    background-color: rgba(17, 18, 43, 0.5);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 101%;
+}
+.modal-content {
+    background-color: white;
+    width: 33%;
+    margin: 0 auto;
+    margin-top: 17%;
+    height: 300px;
+    border-radius: 5px;
+    padding: 20px;
+}
+.sign-in {
+    font-size: 2em;
+    text-align: center;
+}
+.sign-in i {
+    margin-top: 35px;
+    font-size: 1.4em;
+}
+.modal-input-wrapper {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 65px;
+}
+.modal-input {
+    margin: 20px 0;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+}
+.close {
+    font-weight: 750;
+    cursor: pointer;
+}
+.create-account {
+    text-align: center;
+    font-size: 0.9em;
 }
