@@ -1,57 +1,61 @@
-let users = {};
+// let users = {};
 
-$("#new-account").click(function(){
-        let newUsername = $("#newUsername").val();
-        let newPassword = $("#newPassword").val();
-        let newColor = $("#newColor").val();
-        users.name = newUsername;
-        users.pass = newPassword;
-        users.color = newColor;
-        $("#newUsername").css("border-color", "#31D158");
-        $("#newPassword").css("border-color", "#31D158");
-        $("#newColor").css("border-color", "#31D158");
-        $("#success").html("Account Created!");
-});
+// $("#new-account").click(function(){
+//         let newUsername = $("#newUsername").val();
+//         let newPassword = $("#newPassword").val();
+//         let newColor = $("#newColor").val();
+//         users.name = newUsername;
+//         users.pass = newPassword;
+//         users.color = newColor;
+//         $("#newUsername").css("border-color", "#31D158");
+//         $("#newPassword").css("border-color", "#31D158");
+//         $("#newColor").css("border-color", "#31D158");
+//         $("#success").html("Account Created!");
+// });
 
-$("#return-sign-in").click(function(){
-    $("#create-account-modal").hide();
-    $("#modal-container").show();
-})
+// $("#return-sign-in").click(function(){
+//     $("#create-account-modal").hide();
+//     $("#modal-container").show();
+// })
 
-$("#create-account").click(function(){
-    $("#modal-container").hide();
-    $("#create-account-modal").show();
-})
+// $("#create-account").click(function(){
+//     $("#modal-container").hide();
+//     $("#create-account-modal").show();
+// })
 
-let menu = 0;
+// let menu = 0;
 
-$("#show-sidebar").click(function(){
-    menu++;
-    if(menu % 2 == 1) {
-        $(".item").css("white-space", "nowrap");
-    } else if(menu % 2 == 0) {
-        $(".item").css("white-space", "normal");
-    }
-    $("#container").animate({width:'toggle'},550);
-});
+// $("#show-sidebar").click(function(){
+//     menu++;
+//     if(menu % 2 == 1) {
+//         $(".listItem").animate({
+//             marginLeft: "-300"
+//         }, 280);
+//     } else if(menu % 2 == 0) {
+//         $(".listItem").animate({
+//             marginLeft: "0"
+//         }, 210);
+//     }
+//     $("#container").animate({width:'toggle'},550);
+// });
 
-function modal() {
-    $("#modal-container").show();
+// function modal() {
+//     $("#modal-container").show();
 
-    $("#sign-in").click(function(){
-            if($("#username").val() == users.name && $("#password").val() == users.pass) {
-                $("#modal-container").hide();
-                $("#user").html("Welcome Back " + users.name + "!");
-            } else {
-                $("#username").css("border-color", "rgb(255, 69, 58");
-                $("#password").css("border-color", "rgb(255, 69, 58");
-            }
-    })
-}
+//     $("#sign-in").click(function(){
+//             if($("#username").val() == users.name && $("#password").val() == users.pass) {
+//                 $("#modal-container").hide();
+//                 $("#user").html("Welcome Back " + users.name + "!");
+//             } else {
+//                 $("#username").css("border-color", "rgb(255, 69, 58");
+//                 $("#password").css("border-color", "rgb(255, 69, 58");
+//             }
+//     })
+// }
 
-$("#create-account").click(function(){
-    $("#modal-container").hide();
-})
+// $("#create-account").click(function(){
+//     $("#modal-container").hide();
+// })
 
 var lists = [];
 var selectedList = {};
@@ -67,7 +71,15 @@ $("#input-btn").click(function() {
     itemReady();
 })
 
+// function saveData(){
+//     window.localStorage.setItem("listsAndTasks", JSON.stringify(lists));
+//     window.localStorage.setItem("selectedList", JSON.stringify(selectedList));
+// }
+// lists = JSON.parse(window.localStorage.getItem("listsAndTasks"));
+// selectedList = JSON.parse(window.localStorage.getItem("selectedList"));
+
 function itemReady(){ 
+
     var input = document.getElementById("input");
     if(!input.value) {
         document.getElementById("currentList").innerHTML = "Enter Value!";
@@ -108,11 +120,28 @@ function renderLists(id){
     for(list in lists) {
         html += `<div class="listItem">
                     <i class="fas fa-trash-alt" onclick="deleteList(${lists[list].iD}, event)"></i>
-                    <div class="item">${lists[list].name}</div>
+                    <i class="fas fa-pencil-alt listPencil" onclick="editList(event)"></i>
+                    <div class="item" contentEditable="false">${lists[list].name}</div>
                 </div>`;
     }
     html += `</div>`;
     document.getElementById("lists").innerHTML = html;
+}
+
+function editList(event){
+    let x = event.target.nextSibling.nextSibling;
+    x.classList.add("bgwhite");
+    x.contentEditable = "true";
+    event.target.classList.add("activePencil");
+    $(".fa-pencil-alt").parent().css("cursor", "text");
+    $("#edit-complete").slideDown(200);
+    $("#edit-complete").click(function(){
+        x.contentEditable = "false";
+        $(".fa-pencil-alt").parent().css("cursor", "pointer");
+        event.target.classList.remove("activePencil");
+        $("#edit-complete").slideUp(200);
+        x.classList.remove("bgwhite");
+    })
 }
 
 function renderTasks() {
@@ -123,6 +152,7 @@ function renderTasks() {
         for(tasks in lists[selectedList.id].tasks) {
             html += `<div class="text">
                         <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
+                        <i class="fas fa-pencil-alt"></i>
                         <i class="${lists[selectedList.id].completed[tasks]}" onclick="check(event)"></i>
                         <div>${lists[selectedList.id].tasks[tasks]}</div>
                     </div>`;
@@ -168,9 +198,9 @@ function deleteTask(event){
 function deleteList(id, event){
     let y = event.target.parentNode;
     $(y).animate({
-        marginLeft: "-270",
+        opacity: 0,
         marginBottom: "-52"
-    }, 100)
+    }, 200)
     setTimeout(function(){
         for(i = 0; i < lists.length; i++) {
             if(id === lists[i].iD) {
