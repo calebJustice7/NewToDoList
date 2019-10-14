@@ -76,10 +76,11 @@ function saveData(){
     localStorage.setItem("selectedList", JSON.stringify(selectedList));
 }
 
-lists = JSON.parse(localStorage.getItem("listsAndTasks"));
-selectedList = JSON.parse(localStorage.getItem("selectedList"));
-renderLists();
-itemReady();
+if(lists.length > 0) {
+    lists = JSON.parse(localStorage.getItem("listsAndTasks"));
+    renderLists();
+    itemReady();
+}
 
 function itemReady(){ 
 
