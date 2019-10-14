@@ -55,7 +55,6 @@ body {
     display: flex;
 }
 .page-container > .side-bar {
-    /* width: 500px; */
     height: 720px;
     background-color: #dadfea;
     position: relative;
@@ -90,7 +89,7 @@ body {
     width: 50%;
     padding: 0;
     margin: 0;
-    background-color: rgba(17, 18, 43, 0.4);
+    background-color: #A0A0AA;
     border: none;
     color: white;
     white-space: nowrap;
@@ -249,6 +248,7 @@ button {
 .clearCompleted {
     width: 260px;
     padding: 10px 0;
+    display: none;
 }
 #edit-complete {
     display: none;
@@ -256,9 +256,17 @@ button {
 .activePencil {
     color: #00aaf1;
 }
-.deactivePencil {
-    color: #9e9e9e;
+.bggray {
+    background-color: #9e9e9e;
+    color: white;
+    padding: 0 5px;
 }
 .bgwhite {
     background-color: white;
+}
+#edit-task-complete {
+    display: none;
+}
+.tasks {
+    padding-top: 30px;
 }

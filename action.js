@@ -129,19 +129,26 @@ function renderLists(id){
 }
 
 function editList(event){
-    let x = event.target.nextSibling.nextSibling;
-    x.classList.add("bgwhite");
-    x.contentEditable = "true";
-    event.target.classList.add("activePencil");
-    $(".fa-pencil-alt").parent().css("cursor", "text");
-    $("#edit-complete").slideDown(200);
-    $("#edit-complete").click(function(){
-        x.contentEditable = "false";
-        $(".fa-pencil-alt").parent().css("cursor", "pointer");
-        event.target.classList.remove("activePencil");
-        $("#edit-complete").slideUp(200);
-        x.classList.remove("bgwhite");
-    })
+    if(selectedList.id >= 0) {
+        let x = event.target.nextSibling.nextSibling;
+        x.classList.add("bgwhite");
+        x.contentEditable = "true";
+        event.target.classList.add("activePencil");
+        $(".fa-pencil-alt").parent().css("cursor", "text");
+        $("#edit-complete").slideDown(200);
+        $("#edit-complete").click(function(){
+            x.contentEditable = "false";
+            $(".fa-pencil-alt").parent().css("cursor", "pointer");
+            event.target.classList.remove("activePencil");
+            $("#edit-complete").slideUp(200);
+            x.classList.remove("bgwhite");
+            lists[selectedList.id].name = x.innerHTML;
+            renderLists();
+            itemReady();
+        })
+    } else {
+        alert("Select a list to edit");
+    }
 }
 
 function renderTasks() {
@@ -152,14 +159,42 @@ function renderTasks() {
         for(tasks in lists[selectedList.id].tasks) {
             html += `<div class="text">
                         <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
-                        <i class="fas fa-pencil-alt"></i>
+                        <i class="fas fa-pencil-alt" onclick="editTask(event)"></i>
                         <i class="${lists[selectedList.id].completed[tasks]}" onclick="check(event)"></i>
-                        <div>${lists[selectedList.id].tasks[tasks]}</div>
+                        <div contentEditable="false">${lists[selectedList.id].tasks[tasks]}</div>
                     </div>`;
         }
-        html += `</div><button class="clearCompleted" onclick="clearCompleted(event)">Clear Completed Tasks</button>`;
+        html += `</div>`;
     }
     document.getElementById("tasks").innerHTML = html;
+    if(lists[selectedList.id].tasks.length > 0){
+        $(".clearCompleted").show();
+    } else {
+        $(".clearCompleted").hide();
+    }
+}
+
+function editTask(event){
+    let selected = selectedList.id
+    let x = event.target.parentNode.lastChild.previousSibling;
+    let oldTask = x.innerHTML;
+    x.classList.add("bggray");
+    x.contentEditable = "true";
+    event.target.classList.add("activePencil");
+    $(".fa-pencil-alt").parent().css("cursor", "text");
+    $("#edit-task-complete").slideDown(200);
+    let thisIndex = lists[selected].tasks.indexOf(oldTask);
+    $("#edit-task-complete").click(function(){
+        let newTask = x.innerHTML;
+        x.contentEditable = false;
+        $(".fa-pencil-alt").parent().css("cursor", "pointer");
+        event.target.classList.remove("activePencil");
+        $("#edit-task-complete").slideUp(200);
+        x.classList.remove("bggray");
+        console.log(thisIndex);
+        lists[selected].tasks[thisIndex] = newTask;
+        renderTasks();
+    })
 }
 
 function clearCompleted(event){
@@ -193,6 +228,10 @@ function deleteTask(event){
         lists[selectedList.id].completed.splice(thisIndex, 1);
         renderTasks();
     });
+    if(lists[selectedList.id].tasks.length == 1) {
+        $("#edit-task-complete").slideUp(200)
+    }
+
 }
 
 function deleteList(id, event){
