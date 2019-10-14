@@ -166,7 +166,7 @@ function renderTasks() {
                         <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
                         <i class="fas fa-pencil-alt"></i>
                         <i class="${lists[selectedList.id].completed[index]}" onclick="check(event)"></i>
-                        <div contentEditable="false">${lists[selectedList.id].tasks[index]}</div>
+                        <div contentEditable="false" onclick="editTask(event, ${index})">${lists[selectedList.id].tasks[index]}</div>
                     </div>`;
         });
         html += `</div>`;
@@ -180,9 +180,23 @@ function renderTasks() {
     // }
 }
 
+function editTask(event, index){
+    event.target.className = "bggray";
+    event.target.contentEditable = "true";
+    event.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.classList.add("activePencil");
+    $("#edit-task-complete").slideDown(200);
+    $("#edit-task-complete").click(function(){
+        event.target.contentEditable = "false";
+        event.target.classList.remove("bggray");
+        lists[selectedList.id].tasks[index] = event.target.innerHTML;
+        event.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.classList.remove("activePencil");
+        $("#edit-task-complete").slideUp(200);
+    })
+}
+
 function clearCompleted(event){
-    for(let i = 0; i < lists[selectedList.id].tasks.length; i++) {
-        if(lists[selectedList.id].completed[i]=="far fa-check-circle") {
+    for(let i = 0; i < lists[selectedList.id].completed.length; i++) {
+        if(lists[selectedList.id].completed[i] === "far fa-check-circle") {
             lists[selectedList.id].tasks.splice(i, 1);
             lists[selectedList.id].completed.splice(i, 1);
             renderTasks();
