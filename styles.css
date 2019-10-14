@@ -246,9 +246,9 @@ button {
     align-items: center;
 }
 .clearCompleted {
-    width: 260px;
+    width: 258px;
     padding: 10px 0;
-    display: none;
+    margin-top: 10px;
 }
 #edit-complete {
     display: none;

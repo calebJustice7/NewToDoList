@@ -71,12 +71,15 @@ $("#input-btn").click(function() {
     itemReady();
 })
 
-// function saveData(){
-//     window.localStorage.setItem("listsAndTasks", JSON.stringify(lists));
-//     window.localStorage.setItem("selectedList", JSON.stringify(selectedList));
-// }
-// lists = JSON.parse(window.localStorage.getItem("listsAndTasks"));
-// selectedList = JSON.parse(window.localStorage.getItem("selectedList"));
+function saveData(){
+    localStorage.setItem("listsAndTasks", JSON.stringify(lists));
+    localStorage.setItem("selectedList", JSON.stringify(selectedList));
+}
+
+lists = JSON.parse(localStorage.getItem("listsAndTasks"));
+selectedList = JSON.parse(localStorage.getItem("selectedList"));
+renderLists();
+itemReady();
 
 function itemReady(){ 
 
@@ -126,6 +129,7 @@ function renderLists(id){
     }
     html += `</div>`;
     document.getElementById("lists").innerHTML = html;
+    saveData();
 }
 
 function editList(event){
@@ -145,6 +149,7 @@ function editList(event){
             lists[selectedList.id].name = x.innerHTML;
             renderLists();
             itemReady();
+            saveData();
         })
     } else {
         alert("Select a list to edit");
@@ -156,45 +161,23 @@ function renderTasks() {
     var checked = "far fa-check-circle";
     let html = "<div>";
     if(lists.length > 0) {
-        for(tasks in lists[selectedList.id].tasks) {
+        lists[selectedList.id].tasks.forEach((task, index) => {
             html += `<div class="text">
                         <i onclick="deleteTask(event)" class="fas fa-trash-alt"></i>
-                        <i class="fas fa-pencil-alt" onclick="editTask(event)"></i>
-                        <i class="${lists[selectedList.id].completed[tasks]}" onclick="check(event)"></i>
-                        <div contentEditable="false">${lists[selectedList.id].tasks[tasks]}</div>
+                        <i class="fas fa-pencil-alt"></i>
+                        <i class="${lists[selectedList.id].completed[index]}" onclick="check(event)"></i>
+                        <div contentEditable="false">${lists[selectedList.id].tasks[index]}</div>
                     </div>`;
-        }
+        });
         html += `</div>`;
     }
     document.getElementById("tasks").innerHTML = html;
-    if(lists[selectedList.id].tasks.length > 0){
-        $(".clearCompleted").show();
-    } else {
-        $(".clearCompleted").hide();
-    }
-}
-
-function editTask(event){
-    let selected = selectedList.id
-    let x = event.target.parentNode.lastChild.previousSibling;
-    let oldTask = x.innerHTML;
-    x.classList.add("bggray");
-    x.contentEditable = "true";
-    event.target.classList.add("activePencil");
-    $(".fa-pencil-alt").parent().css("cursor", "text");
-    $("#edit-task-complete").slideDown(200);
-    let thisIndex = lists[selected].tasks.indexOf(oldTask);
-    $("#edit-task-complete").click(function(){
-        let newTask = x.innerHTML;
-        x.contentEditable = false;
-        $(".fa-pencil-alt").parent().css("cursor", "pointer");
-        event.target.classList.remove("activePencil");
-        $("#edit-task-complete").slideUp(200);
-        x.classList.remove("bggray");
-        console.log(thisIndex);
-        lists[selected].tasks[thisIndex] = newTask;
-        renderTasks();
-    })
+    saveData();
+    // if(lists[selectedList.id].tasks.length < 1){
+    //     $(".clearCompleted").hide();
+    // } else {
+    //     $(".clearCompleted").show();
+    // }
 }
 
 function clearCompleted(event){
@@ -203,6 +186,7 @@ function clearCompleted(event){
             lists[selectedList.id].tasks.splice(i, 1);
             lists[selectedList.id].completed.splice(i, 1);
             renderTasks();
+            saveData();
         }
     }
 }
@@ -212,6 +196,7 @@ function check(event){
     let thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
     lists[selectedList.id].completed[thisIndex] = "far fa-check-circle";
     renderTasks();
+    saveData();
 }
 
 function deleteTask(event){
@@ -227,6 +212,7 @@ function deleteTask(event){
         lists[selectedList.id].tasks.splice(thisIndex, 1);
         lists[selectedList.id].completed.splice(thisIndex, 1);
         renderTasks();
+        saveData();
     });
     if(lists[selectedList.id].tasks.length == 1) {
         $("#edit-task-complete").slideUp(200)
@@ -245,11 +231,13 @@ function deleteList(id, event){
             if(id === lists[i].iD) {
                 lists.splice(i, 1);
                 selectedList.id = 0;
+                selectedList.tasks = [];
             }
         }
         renderTasks();
         renderLists();
         itemReady();
+        saveData();
     }, 300)
 }
 
@@ -268,6 +256,7 @@ function addTask() {
             lists[selectedList.id].tasks.push(taskInput.value);
             lists[selectedList.id].completed.push("far fa-circle");
             renderTasks();
+            saveData();
         }
     }
     taskInput.value = "";
