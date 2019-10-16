@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet" type="text/css" />
+    <link href="nightmode.css" rel="stylesheet" type="text/css" />
     <script src="https://kit.fontawesome.com/0704771d8f.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
@@ -17,6 +18,7 @@
         </div>
         <div class="right-side">
             <i class="fas fa-users-cog"></i>
+            <i class="fas fa-cogs" id="settings"></i>
         </div>
     </div>
     <div class="page-container">
@@ -53,7 +55,6 @@
             </div>
         </div>
     </div>
-    <button onclick="saveData()">save</button>
     <div id="modal-container" class="modal-container">
         <div class="modal-content">
             <div class="sign-in">
@@ -103,7 +104,7 @@
 
                 <div class="modal-input">
                     <label for="newColor">Your Favorite Color</label>
-                    <input id="newColor" type="text" placeholder="Password" />
+                    <input id="newColor" type="text" placeholder="Fav Color" />
                 </div>
 
                 <div class="sign-in-btn">
@@ -122,6 +123,47 @@
         </div>
     </div>
 
+    <div id="settings-modal" class="modal-container">
+        <div class="modal-content">
+            <div class="modal-body-wrapper">
+                <div class="header">
+                    HOW TO USE
+                </div>
+
+                <div class="row">
+                    <div class="top">
+                        <i class="fas fa-trash-alt"></i>
+                        <i class="fas fa-pencil-alt"></i>
+                        <div>LIST</div>
+                    </div>
+                    <div class="bottom">
+                        <div>Click Pen icon to edit, then click LIST to change. After you change it click EDIT TASKS at
+                            top. To delete Click Trash</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="top">
+                        <i class="fas fa-trash-alt"></i>
+                        <i class="fas fa-pencil-alt"></i>
+                        <i class="far fa-circle"></i>
+                        <div>TASK</div>
+                    </div>
+                    <div class="bottom">
+                        <div>Click On Text to edit, then pen will turn blue. After you change it click EDIT TASKS at
+                            top. To delete click trash, To check icon off click empty circle</div>
+                    </div>
+                </div>
+
+                <div class="row night">
+                    <input type="checkbox" id="nightMode">
+                    <label for="nightMode">Night Mode</label>
+                </div>
+                <div class="close" id="close">
+                    <div>Close</div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="action.js"></script>
 </body>

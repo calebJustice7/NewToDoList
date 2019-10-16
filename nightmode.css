@@ -1,0 +1,29 @@
+.headerN {
+    background-color: #000000;
+    color: #aaaaaa;
+}
+.buttonN {
+    background-color: #1F1F1F !important;
+    color: #E2E2E2 !important;
+}
+.inputN {
+    color: #aaaaaa !important;
+    background-color: #313131 !important;
+}
+.clearCompletedN {
+    background-color: #b55400;
+    color: #cbcbbc;
+}
+.headingN {
+    background-color: #7e7e7e !important;
+}
+.sideBarN {
+    background-color: #929191 !important;
+}
+.task-containerN {
+    background-color: #cbcbcb !important;
+}
+.listItemN {
+    color: white !important;
+    border-color: white !important;
+}
