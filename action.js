@@ -1,77 +1,86 @@
-function saveData() {
-    localStorage.setItem("listsAndTasks", JSON.stringify(lists));
-    // localStorage.setItem("users", JSON.stringify(users));
+var users = {};
+var signedIn = {};
+
+$("#new-account").click(function () {
+    let newUsername = $("#newUsername").val();
+    let newPassword = $("#newPassword").val();
+    let newColor = $("#newColor").val();
+    users.name = newUsername;
+    users.pass = newPassword;
+    users.color = newColor;
+    $("#newUsername").css("border-color", "#31D158");
+    $("#newPassword").css("border-color", "#31D158");
+    $("#newColor").css("border-color", "#31D158");
+    $("#success").html("Account Created!");
+    document.getElementById("newUsername").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("newColor").value = "";
+
+});
+
+$("#return-sign-in").click(function () {
+    $("#create-account-modal").hide();
+    $("#modal-container").show();
+    saveData();
+})
+
+$("#create-account").click(function () {
+    $("#modal-container").hide();
+    $("#create-account-modal").show();
+})
+
+let menu = 0;
+
+$("#show-sidebar").click(function () {
+    menu++;
+    if (menu % 2 == 1) {
+        $(".listItem").animate({
+            marginLeft: "-300"
+        }, 280);
+    } else if (menu % 2 == 0) {
+        $(".listItem").animate({
+            marginLeft: "0"
+        }, 210);
+    }
+    $("#container").animate({ width: 'toggle' }, 550);
+});
+
+function modal() {
+    $("#modal-container").show();
+
+    $("#sign-in").click(function () {
+        if ($("#username").val() == users.name && $("#password").val() == users.pass) {
+            $("#modal-container").fadeOut(200);
+            $("#user").html("Welcome Back " + users.name + "!");
+            $("#username").css("border-color", "#31D158");
+            $("#password").css("border-color", "#31D158");
+            signedIn.logged = true;
+        } else {
+            $("#username").css("border-color", "rgb(255, 69, 58");
+            $("#password").css("border-color", "rgb(255, 69, 58");
+            signedIn.logged = false;
+        }
+    })
 }
 
-// var users = {};
+$("#sign-in-icon").click(function(){
+    $("#modal-container").show();
+    if(signedIn.logged==true) {
+        $("#sign-out").show();
+    } else {
+        $("#sign-out").hide();
+    }
+})
 
-// $("#new-account").click(function () {
-//     let newUsername = $("#newUsername").val();
-//     let newPassword = $("#newPassword").val();
-//     let newColor = $("#newColor").val();
-//     users.name = newUsername;
-//     users.pass = newPassword;
-//     users.color = newColor;
-//     $("#newUsername").css("border-color", "#31D158");
-//     $("#newPassword").css("border-color", "#31D158");
-//     $("#newColor").css("border-color", "#31D158");
-//     $("#success").html("Account Created!");
-//     document.getElementById("newUsername").value = "";
-//     document.getElementById("newPassword").value = "";
-//     document.getElementById("newColor").value = "";
-//     saveData();
-// });
-
-// $("#return-sign-in").click(function () {
-//     $("#create-account-modal").hide();
-//     $("#modal-container").show();
-//     saveData();
-// })
-
-// $("#create-account").click(function () {
-//     $("#modal-container").hide();
-//     $("#create-account-modal").show();
-// })
-
-// let menu = 0;
-
-// $("#show-sidebar").click(function () {
-//     menu++;
-//     if (menu % 2 == 1) {
-//         $(".listItem").animate({
-//             marginLeft: "-300"
-//         }, 280);
-//     } else if (menu % 2 == 0) {
-//         $(".listItem").animate({
-//             marginLeft: "0"
-//         }, 210);
-//     }
-//     $("#container").animate({ width: 'toggle' }, 550);
-// });
-
-// function modal() {
-//     $("#modal-container").show();
-
-//     $("#sign-in").click(function () {
-//         if ($("#username").val() == users.name && $("#password").val() == users.pass) {
-//             $("#modal-container").fadeOut(200);
-//             $("#user").html("Welcome Back " + users.name + "!");
-//         } else {
-//             $("#username").css("border-color", "rgb(255, 69, 58");
-//             $("#password").css("border-color", "rgb(255, 69, 58");
-//         }
-//     })
-// }
-
-// $("#create-account").click(function () {
-//     $("#modal-container").hide();
-// })
+$("#create-account").click(function () {
+    $("#modal-container").hide();
+})
 
 $("#settings").click(() => {
     $("#settings-modal").show();
     $("#close").click(function () {
         $("#settings-modal").hide();
-        if($("#nightMode").is(":checked")) {
+        if ($("#nightMode").is(":checked")) {
             $(".header").addClass("headerN");
             $("#input-btn").addClass("buttonN");
             $("#task-btn").addClass("buttonN");
@@ -108,17 +117,18 @@ $("#input-btn").click(function () {
     itemReady();
 })
 
-// function getData(){
-//     JSON.parse(localStorage.getItem("listsAndTasks"));
-// }
-
 var lists = [];
 var selectedList = {};
 var taskIndex = {};
 var id = 0;
 
+function saveData() {
+    localStorage.lists = JSON.stringify(lists);
+    localStorage.selectedList = JSON.stringify(selectedList);
+}
+
 function itemReady() {
-    // getData();
+    saveData();
     var input = document.getElementById("input");
     if (!input.value) {
         document.getElementById("currentList").innerHTML = "Enter Value!";
@@ -165,7 +175,6 @@ function renderLists(id) {
     }
     html += `</div>`;
     document.getElementById("lists").innerHTML = html;
-    saveData();
 }
 
 function editList(event) {
@@ -185,7 +194,7 @@ function editList(event) {
             lists[selectedList.id].name = x.innerHTML;
             renderLists();
             itemReady();
-            saveData();
+
         })
     } else {
         alert("Select a list to edit");
@@ -207,7 +216,7 @@ function renderTasks() {
         html += `</div>`;
     }
     document.getElementById("tasks").innerHTML = html;
-    saveData();
+
 }
 
 function editTask(event, index) {
@@ -233,19 +242,20 @@ function editTask(event, index) {
 function clearCompleted(event) {
     for (let i = 0; i < lists[selectedList.id].tasks.length; i++) {
         if (lists[selectedList.id].completed[i] == true) {
-            lists[selectedList.id].tasks.splice(i, 1);
-            lists[selectedList.id].completed.splice(i, 1);
+            let thisi = i;
+            lists[selectedList.id].tasks.splice(thisi, 1);
+            lists[selectedList.id].completed.splice(thisi, 1);
             renderTasks();
-            saveData();
         }
     }
 }
+
 function check(event) {
     let thisHtml = event.target.parentNode.lastChild.previousSibling.innerHTML;
     let thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
     lists[selectedList.id].completed[thisIndex] = true;
     renderTasks();
-    saveData();
+
 }
 
 function deleteTask(event) {
@@ -261,7 +271,7 @@ function deleteTask(event) {
         lists[selectedList.id].tasks.splice(thisIndex, 1);
         lists[selectedList.id].completed.splice(thisIndex, 1);
         renderTasks();
-        saveData();
+
     });
     if (lists[selectedList.id].tasks.length == 1) {
         $("#edit-task-complete").slideUp(200)
@@ -286,7 +296,7 @@ function deleteList(id, event) {
         renderTasks();
         renderLists();
         itemReady();
-        saveData();
+
     }, 300)
 }
 
@@ -305,7 +315,7 @@ function addTask() {
             lists[selectedList.id].tasks.push(taskInput.value);
             lists[selectedList.id].completed.push(false);
             renderTasks();
-            saveData();
+
         }
     }
     taskInput.value = "";
