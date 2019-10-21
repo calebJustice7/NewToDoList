@@ -21,7 +21,6 @@ $("#new-account").click(function () {
 $("#return-sign-in").click(function () {
     $("#create-account-modal").hide();
     $("#modal-container").show();
-    saveData();
 })
 
 $("#create-account").click(function () {
@@ -104,7 +103,6 @@ $("#settings").click(() => {
             $("#container").removeClass("listItemN");
         }
     })
-
 })
 
 $("#input").keyup(function (event) {
@@ -123,8 +121,8 @@ var taskIndex = {};
 var id = 0;
 
 function saveData() {
-    localStorage.lists = JSON.stringify(lists);
-    localStorage.selectedList = JSON.stringify(selectedList);
+    localStorage.setItem("lists", JSON.stringify(lists));
+    localStorage.setItem("users", JSON.stringify(users));
 }
 
 function itemReady() {
@@ -202,6 +200,7 @@ function editList(event) {
 }
 
 function renderTasks() {
+    saveData();
     let html = "<div>";
     if (lists.length > 0) {
         lists[selectedList.id].tasks.forEach((task, index) => {
@@ -217,6 +216,23 @@ function renderTasks() {
     }
     document.getElementById("tasks").innerHTML = html;
 
+    for(let i = 0; i < document.getElementsByClassName("clearCompleted").length; i++){
+        document.getElementsByClassName("clearCompleted")[i].addEventListener("click", function(){
+            $(".fa-check-circle").parent().animate({
+                opacity: 0,
+                marginBottom: "-49"
+            }, 300)
+            for(let j = 0; j < lists[selectedList.id].completed.length; j++){
+                setTimeout(function(){
+                    if(lists[selectedList.id].completed[j] == true){
+                        lists[selectedList.id].completed.splice(j, 1);
+                        lists[selectedList.id].tasks.splice(j, 1);
+                        renderTasks();
+                    }
+                }, 450)
+            }
+        })
+    }
 }
 
 function editTask(event, index) {
@@ -239,23 +255,11 @@ function editTask(event, index) {
     })
 }
 
-function clearCompleted(event) {
-    for (let i = 0; i < lists[selectedList.id].tasks.length; i++) {
-        if (lists[selectedList.id].completed[i] == true) {
-            let thisi = i;
-            lists[selectedList.id].tasks.splice(thisi, 1);
-            lists[selectedList.id].completed.splice(thisi, 1);
-            renderTasks();
-        }
-    }
-}
-
 function check(event) {
     let thisHtml = event.target.parentNode.lastChild.previousSibling.innerHTML;
     let thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
     lists[selectedList.id].completed[thisIndex] = true;
     renderTasks();
-
 }
 
 function deleteTask(event) {
@@ -264,19 +268,17 @@ function deleteTask(event) {
         opacity: 0,
         marginLeft: "-300",
         marginBottom: "-40",
-
     }, 400, function () {
         let thisHtml = event.target.parentNode.lastChild.previousSibling.innerHTML;
         let thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
         lists[selectedList.id].tasks.splice(thisIndex, 1);
         lists[selectedList.id].completed.splice(thisIndex, 1);
         renderTasks();
-
     });
+
     if (lists[selectedList.id].tasks.length == 1) {
         $("#edit-task-complete").slideUp(200)
     }
-
 }
 
 function deleteList(id, event) {
@@ -296,7 +298,6 @@ function deleteList(id, event) {
         renderTasks();
         renderLists();
         itemReady();
-
     }, 300)
 }
 
@@ -315,7 +316,6 @@ function addTask() {
             lists[selectedList.id].tasks.push(taskInput.value);
             lists[selectedList.id].completed.push(false);
             renderTasks();
-
         }
     }
     taskInput.value = "";

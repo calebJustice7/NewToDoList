@@ -177,7 +177,7 @@ body {
     width: 33%;
     margin: 0 auto;
     margin-top: 17%;
-    height: 320px;
+    height: 380px;
     border-radius: 5px;
     padding: 20px;
 }
@@ -343,4 +343,9 @@ button {
 .night input {
     margin-bottom: 4px;
     margin-right: 4px;
+}
+.night-mode {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin-bottom: 5px;
 }
