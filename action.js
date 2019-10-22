@@ -15,7 +15,7 @@ $("#new-account").click(function () {
     document.getElementById("newUsername").value = "";
     document.getElementById("newPassword").value = "";
     document.getElementById("newColor").value = "";
-
+    saveData();
 });
 
 $("#return-sign-in").click(function () {
@@ -47,7 +47,14 @@ $("#show-sidebar").click(function () {
 function modal() {
     $("#modal-container").show();
 
+    if(localStorage.getItem("users") === null) {
+        console.log("null");
+    } else {
+        users = JSON.parse(localStorage.getItem("users"));
+    }
+
     $("#sign-in").click(function () {
+
         if ($("#username").val() == users.name && $("#password").val() == users.pass) {
             $("#modal-container").fadeOut(200);
             $("#user").html("Welcome Back " + users.name + "!");
@@ -119,6 +126,13 @@ var lists = [];
 var selectedList = {};
 var taskIndex = {};
 var id = 0;
+
+if(localStorage.getItem("lists") === null) {
+    console.log("null lists");
+} else {
+    console.log("not null lists");
+    lists = JSON.parse(localStorage.getItem("lists"));
+}
 
 function saveData() {
     localStorage.setItem("lists", JSON.stringify(lists));
