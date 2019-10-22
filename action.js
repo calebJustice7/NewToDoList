@@ -132,15 +132,20 @@ if(localStorage.getItem("lists") === null) {
 } else {
     console.log("not null lists");
     lists = JSON.parse(localStorage.getItem("lists"));
+    renderLists();
+    itemReady();
+
 }
 
 function saveData() {
-    localStorage.setItem("lists", JSON.stringify(lists));
     localStorage.setItem("users", JSON.stringify(users));
+}
+function saveLists(){
+    localStorage.setItem("lists", JSON.stringify(lists));
 }
 
 function itemReady() {
-    saveData();
+    saveLists();
     var input = document.getElementById("input");
     if (!input.value) {
         document.getElementById("currentList").innerHTML = "Enter Value!";
@@ -177,6 +182,7 @@ function itemReady() {
 }
 
 function renderLists(id) {
+    saveLists();
     let html = `<div class="list-container">`;
     for (list in lists) {
         html += `<div class="listItem">
@@ -206,7 +212,7 @@ function editList(event) {
             lists[selectedList.id].name = x.innerHTML;
             renderLists();
             itemReady();
-
+            saveLists();
         })
     } else {
         alert("Select a list to edit");
@@ -214,7 +220,7 @@ function editList(event) {
 }
 
 function renderTasks() {
-    saveData();
+    saveLists();
     let html = "<div>";
     if (lists.length > 0) {
         lists[selectedList.id].tasks.forEach((task, index) => {
@@ -227,6 +233,7 @@ function renderTasks() {
                     </div>`;
         });
         html += `</div>`;
+        saveLists();
     }
     document.getElementById("tasks").innerHTML = html;
 
@@ -245,6 +252,7 @@ function renderTasks() {
                     }
                 }, 450)
             }
+            saveLists();
         })
     }
 }
@@ -266,6 +274,7 @@ function editTask(event, index) {
         selectedList.tasks[taskIndex.id] = event.target.innerHTML;
         event.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.classList.remove("activePencil");
         $("#edit-task-complete").slideUp(200);
+        saveLists();
     })
 }
 
@@ -274,6 +283,7 @@ function check(event) {
     let thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
     lists[selectedList.id].completed[thisIndex] = true;
     renderTasks();
+    saveLists();
 }
 
 function deleteTask(event) {
@@ -288,6 +298,7 @@ function deleteTask(event) {
         lists[selectedList.id].tasks.splice(thisIndex, 1);
         lists[selectedList.id].completed.splice(thisIndex, 1);
         renderTasks();
+        saveLists();
     });
 
     if (lists[selectedList.id].tasks.length == 1) {
@@ -312,6 +323,7 @@ function deleteList(id, event) {
         renderTasks();
         renderLists();
         itemReady();
+        saveLists();
     }, 300)
 }
 
@@ -333,4 +345,5 @@ function addTask() {
         }
     }
     taskInput.value = "";
+    saveLists();
 }
