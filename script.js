@@ -18,7 +18,7 @@ document.getElementById("input").addEventListener("keyup", function(event){
 
 document.getElementById("input-btn").addEventListener("click", function() {
     itemReady();
-})
+});
 
 function itemReady(){
     var input = document.getElementById("input");

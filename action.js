@@ -1,5 +1,6 @@
 var users = {};
 var signedIn = {};
+var rememberMe = {};
 
 $("#new-account").click(function () {
     let newUsername = $("#newUsername").val();
@@ -51,16 +52,30 @@ function modal() {
         console.log("null");
     } else {
         users = JSON.parse(localStorage.getItem("users"));
+        rememberMe = JSON.parse(localStorage.getItem("remember"));
+    }
+    $("#remember-me").click(function(){
+        rememberMe.remember = true;
+    })
+
+    if(!jQuery.isEmptyObject(rememberMe)){
+            document.getElementById("username").value = users.name;
     }
 
-    $("#sign-in").click(function () {
+    document.getElementById("password").addEventListener("keyup", function(event){
+        if(event.keyCode==13){
 
+        }
+    })
+
+    $("#sign-in").click(function () {
         if ($("#username").val() == users.name && $("#password").val() == users.pass) {
             $("#modal-container").fadeOut(200);
             $("#user").html("Welcome Back " + users.name + "!");
             $("#username").css("border-color", "#31D158");
             $("#password").css("border-color", "#31D158");
             signedIn.logged = true;
+            saveData();
         } else {
             $("#username").css("border-color", "rgb(255, 69, 58");
             $("#password").css("border-color", "rgb(255, 69, 58");
@@ -138,6 +153,7 @@ if(localStorage.getItem("lists") === null) {
 }
 
 function saveData() {
+    localStorage.setItem("remember", JSON.stringify(rememberMe));
     localStorage.setItem("users", JSON.stringify(users));
 }
 function saveLists(){
@@ -331,6 +347,10 @@ document.getElementById("task-input").addEventListener("keyup", function (event)
     if (event.keyCode == 13) {
         addTask();
     }
+})
+
+document.getElementById("task-btn").addEventListener("click", function(){
+    addTask();
 })
 
 var completedClicks = 0;

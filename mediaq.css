@@ -1,0 +1,27 @@
+@media only screen and (max-width: 875px){
+    .page-container > .side-bar > #container > .input {
+        flex-direction: column;
+        height: 80px;
+    }
+    .page-container > .side-bar > #container > .input input {
+        width: 100%;
+        height: 40px;
+    }
+    .page-container > .side-bar > #container > .input button {
+        width: 100%;
+        height: 40px;
+    }
+    .page-container > .task-container > .footer {
+        flex-direction: column;
+        height: 100px;
+    }
+    .page-container > .task-container > .footer input {
+        height: 40px;
+    }
+    .page-container > .task-container > .footer button {
+        height: 40px;
+    }
+    .clearCompleted {
+        margin-top: 50px;
+    }
+}

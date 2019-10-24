@@ -179,10 +179,10 @@ body {
     margin-top: 17%;
     height: 380px;
     border-radius: 5px;
-    padding: 20px;
+    padding: 17px;
 }
 .modal-container .sign-in {
-    font-size: 2em;
+    font-size: 1.9em;
     text-align: center;
 }
 .modal-container .sign-in i {
@@ -192,7 +192,7 @@ body {
 .modal-container .sign-in-btn {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 .modal-container .modal-input-wrapper {
     width: 50%;
@@ -348,4 +348,9 @@ button {
     font-size: 0.9em;
     opacity: 0.8;
     margin-bottom: 5px;
+}
+.remember{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
 }
