@@ -65,13 +65,23 @@ function modal() {
         users = JSON.parse(localStorage.getItem("users"));
     }
 
-    document.getElementById("password").addEventListener("keyup", function(event){
-        if(event.keyCode==13){
-
+   $("#remember-me").click(function(){
+        if($("#remember-me").is(":checked")){
+            let userName = users.name;
+            $("#username").val(userName);
+        } else {
+            $("#username").val("");
         }
     })
 
-    $("#sign-in").click(function () {
+    document.getElementById("password").addEventListener("keyup", function(event){
+        if(event.keyCode == 13) {
+            signIn();
+        };
+    });
+
+    $("#sign-in").click(signIn);
+    function signIn() {
         if ($("#username").val() == users.name && $("#password").val() == users.pass) {
             $("#modal-container").fadeOut(200);
             $("#user").html("Welcome Back " + users.name + "!");
@@ -84,7 +94,7 @@ function modal() {
             $("#password").css("border-color", "rgb(255, 69, 58");
             signedIn.logged = false;
         }
-    })
+    }
 }
 
 $("#sign-in-icon").click(function(){
@@ -260,7 +270,7 @@ function renderTasks() {
             $(".fa-check-circle").parent().animate({
                 opacity: 0,
                 marginBottom: "-49"
-            }, 300)
+            }, 400)
             for(let j = 0; j < lists[selectedList.id].completed.length; j++){
                 setTimeout(function(){
                     if(lists[selectedList.id].completed[j] == true){
@@ -309,7 +319,7 @@ function deleteTask(event) {
     $(x).animate({
         opacity: 0,
         marginLeft: "-300",
-        marginBottom: "-40",
+        marginBottom: "-47",
     }, 400, function () {
         let thisHtml = event.target.parentNode.lastChild.previousSibling.innerHTML;
         let thisIndex = lists[selectedList.id].tasks.indexOf(thisHtml);
