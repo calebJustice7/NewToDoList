@@ -1,6 +1,5 @@
 var users = {};
 var signedIn = {};
-var rememberMe = {};
 
 $("#new-account").click(function () {
     let newUsername = $("#newUsername").val();
@@ -34,10 +33,22 @@ let menu = 0;
 $("#show-sidebar").click(function () {
     menu++;
     if (menu % 2 == 1) {
+        $("#input-btn").animate({
+            opacity: 0
+        })
+        $("#input").animate({
+            opacity: 0
+        })
         $(".listItem").animate({
             marginLeft: "-300"
         }, 280);
     } else if (menu % 2 == 0) {
+        $("#input-btn").animate({
+            opacity: 1
+        })
+        $("#input").animate({
+            opacity: 1
+        })
         $(".listItem").animate({
             marginLeft: "0"
         }, 210);
@@ -52,14 +63,6 @@ function modal() {
         console.log("null");
     } else {
         users = JSON.parse(localStorage.getItem("users"));
-        rememberMe = JSON.parse(localStorage.getItem("remember"));
-    }
-    $("#remember-me").click(function(){
-        rememberMe.remember = true;
-    })
-
-    if(!jQuery.isEmptyObject(rememberMe)){
-            document.getElementById("username").value = users.name;
     }
 
     document.getElementById("password").addEventListener("keyup", function(event){
@@ -153,7 +156,6 @@ if(localStorage.getItem("lists") === null) {
 }
 
 function saveData() {
-    localStorage.setItem("remember", JSON.stringify(rememberMe));
     localStorage.setItem("users", JSON.stringify(users));
 }
 function saveLists(){

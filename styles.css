@@ -3,6 +3,7 @@ body {
     font-family: sans-serif;
     font-weight: 100;
     position: relative;
+    height: 100%;
 }
 
 .listItem {
@@ -53,10 +54,11 @@ body {
 }
 .page-container {
     display: flex;
+    height: 100%;
 }
 .page-container > .side-bar {
-    height: 720px;
     background-color: #dadfea;
+    height: 750px;
     position: relative;
     padding-top: 60px;
     font-family: "Nunito", sans-serif;
@@ -68,6 +70,7 @@ body {
 #container {
     overflow: hidden;
     width: 500px;
+    height: 100%;
 }
 .page-container > .side-bar > #container > .input {
     position: absolute;
